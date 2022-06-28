@@ -1,7 +1,6 @@
 pipeline{
-    agent{
-        label "node"
-    }
+    agent any
+    
     tools {
         maven 'Maven_Home'  // pass same name which is define in jenkins global configuration
     }
