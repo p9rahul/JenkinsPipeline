@@ -34,6 +34,17 @@ pipeline {
                 sh 'echo "${Gender}"'
             }
         }
+         stage('Continue ?') {
+             
+             input {
+                 message 'should we continue?'
+                 ok 'yes, we should'
+             }
+            steps {
+                echo 'Hello Continue'
+            }
+        }
+        
         stage('Deploy Prod') {
             steps {
                 echo 'Hello Prod'
