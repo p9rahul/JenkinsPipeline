@@ -1,0 +1,57 @@
+pipeline {
+    agent any
+   // Global and local variable 
+    environment {
+        glVar1 ='globalVar1'
+    }
+    // Take user input "Build with parameters "  
+   parameters {
+       string(name: 'username1', defaultValue: 'rahul1', description: '')
+       choice(name: 'City', choices: ['one', 'two', 'three'], description: '')
+       password(name: 'PASSWORD', defaultValue: 'SECRET', description: 'A secret password')
+       booleanParam(name: 'Gender', defaultValue: true, description: '')
+   }
+    stages {
+        stage('Build') {
+            steps {
+                sh """
+                 ls
+                 pwd
+                 date
+                 """
+            }
+        }
+        stage('Deploy test') {
+            environment {
+        localVar1 ='My local variable'
+        }
+            steps {
+                echo 'Hello Test'
+                sh 'echo "${glVar1}"'
+                sh 'echo "${localVar1}"'
+                sh 'echo "${City}"'
+                sh 'echo "${password}"'
+                sh 'echo "${Gender}"'
+            }
+        }
+        stage('Deploy Prod') {
+            steps {
+                echo 'Hello Prod'
+                 sh 'echo "${glVar1}"'
+                 sh 'echo "${username1}"'
+            }
+        }
+        
+    }
+    post {
+            always {
+                echo 'Always run'
+             }
+            failure {
+                echo 'Always fail'
+            }
+            success {
+                echo 'Always success'
+             }
+        }
+}
